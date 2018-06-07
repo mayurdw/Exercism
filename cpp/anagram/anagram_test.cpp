@@ -1,5 +1,6 @@
 #include "anagram.h"
 #define BOOST_TEST_MAIN
+#define EXERCISM_RUN_ALL_TESTS
 #include <boost/test/unit_test.hpp>
 
 using namespace std;

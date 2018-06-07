@@ -13,21 +13,22 @@
 
 using namespace std;
 
-class anagram 
+namespace anagram
 {
-    // own string
-    private:
-        string sMainString;
+    class anagram 
+    {
+        public:
+            string sMainString;
+            // constructor
+            anagram();
+            anagram( string const& inputString );
 
-    public:
-        // constructor
-        anagram();
-        anagram( string const& inputString );
+            //destructor
+            ~anagram();
+            // matches function
+            vector<string> matches( vector<string> const& possibleMatches );
+    };
 
-        //destructor
-        ~anagram();
-        // matches function
-        vector<string> matches( vector<string> const& possibleMatches );
-};
+}
 
 #endif
