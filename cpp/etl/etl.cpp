@@ -12,6 +12,14 @@ namespace etl
     {
         map <char,int> cmOutput;
 
+        for( auto const &iterator : cInput )
+        {
+            for( char c: iterator.second )
+            {
+                cmOutput[tolower(c)] = iterator.first;
+            }
+        }
+
         return cmOutput;
     }
 }
