@@ -55,3 +55,13 @@ cpp/space-age/space-age\.dir/Debug/space-age\.tlog/
 cpp/space-age/space-age\.dir/Debug/
 
 *.tlog
+
+cpp/scrabble-score/
+
+cpp/binary/\.vs/
+
+cpp/binary/binary\.dir/
+
+cpp/binary/Debug/
+
+*.json
