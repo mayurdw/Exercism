@@ -65,3 +65,9 @@ cpp/binary/binary\.dir/
 cpp/binary/Debug/
 
 *.json
+
+cpp/hexadecimal/\.vs/
+
+cpp/hexadecimal/Debug/
+
+cpp/hexadecimal/hexadecimal\.dir/
