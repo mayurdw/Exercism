@@ -19,6 +19,7 @@ namespace robot_name
       robot();
       ~robot() = default;
       std::string const &name() const { return sRobotName; }
+      void reset();
    };
 }
 #endif
