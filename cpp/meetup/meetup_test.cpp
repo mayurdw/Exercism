@@ -13,7 +13,6 @@ BOOST_AUTO_TEST_CASE(monteenth_of_May_2013)
     BOOST_REQUIRE_EQUAL(expected, meetup.monteenth());
 }
 
-#if defined(EXERCISM_RUN_ALL_TESTS)
 BOOST_AUTO_TEST_CASE(monteenth_of_August_2013)
 {
     const meetup::scheduler meetup{boost::gregorian::Aug, 2013};
@@ -725,4 +724,6 @@ BOOST_AUTO_TEST_CASE(last_Sunday_of_April_2013)
     const boost::gregorian::date expected{2013, boost::gregorian::Apr, 28};
     BOOST_REQUIRE_EQUAL(expected, meetup.last_sunday());
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
+
 #endif
