@@ -1,126 +1,95 @@
-#include "say.h"
 /*
 Author: Mayur Wadhwani
 Created: August 2018
 */
 
+#include <iterator>
+#include <sstream>
+#include <stdexcept>
+#include "say.h"
+
 using namespace std;
+
+namespace
+{
+
+   const string singles_and_teens_names[] =
+   {
+      "zero", "one", "two", "three", "four",
+      "five", "six", "seven", "eight", "nine",
+      "ten", "eleven", "twelve", "thirteen", "fourteen",
+      "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"
+   };
+
+   const string tens_names[] =
+   {
+      "twenty", "thirty", "forty", "fifty", "sixty",
+      "seventy", "eighty", "ninety"
+   };
+
+   const uint64_t twenty{ 20ULL };
+   const uint64_t one_hundred{ 100ULL };
+   const uint64_t one_thousand{ 1000ULL };
+   const uint64_t one_million{ one_thousand*one_thousand };
+   const uint64_t one_billion{ one_thousand*one_million };
+   const uint64_t one_trillion{ one_thousand*one_billion };
+
+   struct
+   {
+      uint64_t threshold;
+      string name;
+   }
+
+   const units[] =
+   {
+      { one_billion, "billion" },
+      { one_million, "million" },
+      { one_thousand, "thousand" },
+      { one_hundred, "hundred" }
+   };
+
+   void in_english( ostream& english, uint64_t number )
+   {
+      for ( auto unit : units ) {
+         if ( number >= unit.threshold ) {
+            in_english( english, number / unit.threshold );
+            english << ' ' << unit.name;
+            number %= unit.threshold;
+
+            if ( !number ) {
+               return;
+            }
+            english << ' ';
+         }
+      }
+
+      if ( number >= twenty ) {
+         const uint64_t tens{ number / 10ULL - 2ULL };
+         english << tens_names[tens];
+
+         if ( const uint64_t single{ number % 10ULL } ) {
+            english << '-' << singles_and_teens_names[single];
+         }
+      }
+      else {
+         english << singles_and_teens_names[number];
+      }
+   }
+
+}
 
 namespace say
 {
-   string in_english( uint64_t ullInput )
+
+   string in_english( uint64_t number )
    {
-      string sRet = {};
-      string sTemp = {};
-      uint64_t ullDecrementer = 0ULL;
-      bool bDone = false;
-      
-      while ( !bDone )
-      {
-         if ( ullInput < vsTeens.size() && ullInput >= 0 )
-         {
-            GetUnitsName( sTemp, ullInput );
-            sRet.append( sTemp );
-            bDone = true;
-         }
-         else if ( ullInput < ullHundred && ullInput >= vsTeens.size() )
-         {
-            GetTensName( sTemp, ullInput );
-            sRet.append( sTemp );
-            bDone = true;
-         }
-         else if ( ullInput < ullThousand && ullInput >= 100ULL )
-         {
-            GetHundredsName( sTemp, ullInput );
-            sRet.append( sTemp );
-            bDone = true;
-         }
-         else if ( ullInput < ullMillion && ullInput >= ullThousand )
-         {
-            sTemp = vsTeens[ullInput / ullThousand];
-            ullInput -= ( ullInput / ullThousand ) * ullThousand;
-            sRet.append( sTemp );
-            sRet.append( " " );
-            sRet.append( vsIndex[1] );
-            if ( ullInput == 0ULL )
-            {
-               bDone = true;
-            }
-            else
-            {
-               sRet.append( " " );
-            }
-         }
-         else if ( ullInput < ullBillion && ullInput >= ullMillion )
-         {
-            sTemp = vsTeens[ullInput / ullMillion];
-            ullInput -= ( ullInput / ullMillion ) * ullMillion;
-            sRet.append( sTemp );
-            sRet.append( " " );
-            sRet.append( vsIndex[2] );
-            if ( ullInput == 0ULL )
-            {
-               bDone = true;
-            }
-            else
-            {
-               sRet.append( " " );
-            }
-         }
+      if ( number >= one_trillion ) {
+         throw std::domain_error( "argument out of range" );
       }
-      
-      return sRet;
+
+      ostringstream english;
+      ::in_english( english, number );
+      return english.str();
    }
 
-   void GetUnitsName( string & sName, uint64_t ullInput )
-   {
-      sName = vsTeens[ullInput];
-   }
-
-   void GetTensName( string & sName, uint64_t ullInput )
-   {
-      if ( ullInput < vsTeens.size() )
-      {
-         GetUnitsName( sName, ullInput );
-      }
-      else
-      {
-         sName = vsDecades[ullInput / ullTens];
-
-         if ( ullInput % ullTens != 0 )
-         {
-            string sTemp = {};
-
-            GetUnitsName( sTemp, ullInput % ullTens );
-            sName.append( "-" );
-            sName.append( sTemp );
-         }
-      }
-   }
-
-   void GetHundredsName( string & sName, uint64_t ullInput )
-   {
-      if ( ullInput < ullHundred )
-      {
-         GetTensName( sName, ullInput );
-      }
-      else
-      {
-         sName = vsTeens[ullInput / ullHundred];
-
-         sName.append( " " );
-         sName.append( vsIndex[0] );
-
-         if ( ullInput % ullHundred != 0 )
-         {
-            string sTemp = {};
-
-            GetTensName( sTemp, ullInput % ullHundred );
-            sName.append( " " );
-            sName.append( sTemp );
-         }
-      }
-   }
 }
-
-
