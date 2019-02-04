@@ -105,3 +105,10 @@ cpp/sum-of-multiples/\.vs/
 cpp/meetup/\.vs/
 
 cpp/prime-factors/\.vs/
+java/hello-world/.project
+
+java/hello-world/\.gradle/
+
+java/hello-world/\.settings/
+
+java/hello-world/build/
