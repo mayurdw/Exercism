@@ -115,8 +115,14 @@ java/hello-world/build/
 
 users/
 
-java/raindrops/\.gradle/
+java/*/\.gradle/
 
-java/raindrops/\.settings/
+java/*/\.settings/
 
-java/raindrops/\.project
+java/*/\.project
+
+java/*/\.gradle/
+
+java/*/build/
+
+java/\.vs/
