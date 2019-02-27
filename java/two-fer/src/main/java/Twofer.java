@@ -1,12 +1,7 @@
 class Twofer {
     String twofer(String name) {
-        if ( name != null && name.length() != 0 )
-        {
-            return "One for " + name + ", one for me.";
-        }
-        else
-        {
-            return "One for you, one for me.";    
-        }
+        return "One for " + 
+                ( ( name != null && name.length() != 0 ) ? name : "you" ) + 
+                ", one for me.";
     }
 }
