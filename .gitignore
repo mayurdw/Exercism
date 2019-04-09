@@ -126,3 +126,17 @@ java/*/\.gradle/
 java/*/build/
 
 java/\.vs/
+
+java/*/\.idea/
+
+java/*/gradle/
+
+java/*/build\.gradle
+
+java/*/gradlew
+
+java/*/gradlew\.bat
+
+java/*/local\.properties
+
+java/*/*\.iml
