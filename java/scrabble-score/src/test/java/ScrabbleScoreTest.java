@@ -1,6 +1,9 @@
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
+
 import static org.junit.Assert.assertEquals;
 
 public class ScrabbleScoreTest {
@@ -70,5 +73,4 @@ public class ScrabbleScoreTest {
         Scrabble scrabble = new Scrabble("abcdefghijklmnopqrstuvwxyz");
         assertEquals(87, scrabble.getScore());
     }
-
 }
