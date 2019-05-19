@@ -16,7 +16,7 @@ class DifferenceOfSquaresCalculator {
         final int SUM_OF_SQUARE = computeSumOfSquaresTo(input);
         final int SQUARE_OF_SUM = computeSquareOfSumTo(input);
 
-        return ( SUM_OF_SQUARE >= SQUARE_OF_SUM ) ? SUM_OF_SQUARE - SQUARE_OF_SUM : SQUARE_OF_SUM - SUM_OF_SQUARE;
+        return SQUARE_OF_SUM - SUM_OF_SQUARE;
     }
 
 }
