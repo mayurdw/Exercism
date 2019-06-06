@@ -131,8 +131,6 @@ java/*/\.idea/
 
 java/*/gradle/
 
-java/*/build\.gradle
-
 java/*/gradlew
 
 java/*/gradlew\.bat
