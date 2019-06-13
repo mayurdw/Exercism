@@ -1,6 +1,7 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class Matrix {
     private String matrixAsString;
@@ -34,16 +35,29 @@ class Matrix {
     }
 
     private void getNumberOfColumns(){
-        this.numberOfColumns = 1;
+        int endIndex = 0;
+        int x = 0;
 
-        if( this.matrixAsString.contains("\n")){
-            String copy = this.matrixAsString.replace(" ", "");
+        this.numberOfColumns = 0;
 
-            this.numberOfColumns = copy.indexOf("\n");
+        if ( this.matrixAsString.contains("\n")){
+            endIndex = this.matrixAsString.indexOf("\n");
+        }
+        else{
+            endIndex = this.matrixAsString.length();
+        }
+
+        Pattern P = Pattern.compile(" ", Pattern.LITERAL);
+        Matcher m = P.matcher(this.matrixAsString.substring(0, endIndex));
+
+        while(m.find(x)){
+            this.numberOfColumns++;
+            x = m.start() + 1;
         }
     }
 
     private void populateMatrixColumns(){
+
     }
 
     int[] getRow(int rowNumber) {
