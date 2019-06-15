@@ -38,7 +38,7 @@ class Matrix {
         int endIndex = 0;
         int x = 0;
 
-        this.numberOfColumns = 0;
+        this.numberOfColumns = 1;
 
         if ( this.matrixAsString.contains("\n")){
             endIndex = this.matrixAsString.indexOf("\n");
