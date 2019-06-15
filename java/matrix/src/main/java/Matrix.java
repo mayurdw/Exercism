@@ -30,7 +30,7 @@ class Matrix {
                 rowInt[index++] = Integer.parseInt(s2);
             }
 
-            this.matrixRows.add(rowInt);
+            this.matrixRows.add(rowInt.clone());
         }
     }
 
@@ -66,7 +66,7 @@ class Matrix {
                 tempArray[x] = Integer.parseInt(matrixArray[y + ( x * this.numberOfColumns)]);
                 x++;
             }
-            this.matrixColumns.add(tempArray);
+            this.matrixColumns.add( tempArray.clone() );
             y++;
             x = 0;
         }
