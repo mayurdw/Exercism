@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 class Matrix {
     private String matrixAsString;
     private List<int[]> matrixRows = new ArrayList<>();
-    private List<int[]> matrixColumms = new ArrayList<>();
+    private List<int[]> matrixColumns = new ArrayList<>();
     private int numberOfRows = 0;
     private int numberOfColumns = 0;
 
@@ -57,7 +57,19 @@ class Matrix {
     }
 
     private void populateMatrixColumns(){
+        String[] matrixArray = this.matrixAsString.replaceAll("\n"," ").split(" ");
+        int x = 0, y = 0;
+        int[] tempArray = new int[this.numberOfRows];
 
+        while( y < this.numberOfColumns ){
+            while( x < this.numberOfRows ){
+                tempArray[x] = Integer.parseInt(matrixArray[y + ( x * this.numberOfColumns)]);
+                x++;
+            }
+            this.matrixColumns.add(tempArray);
+            y++;
+            x = 0;
+        }
     }
 
     int[] getRow(int rowNumber) {
@@ -65,6 +77,6 @@ class Matrix {
     }
 
     int[] getColumn(int columnNumber) {
-        return this.matrixColumms.get(columnNumber - 1);
+        return this.matrixColumns.get(columnNumber - 1);
     }
 }
