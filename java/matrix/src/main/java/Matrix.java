@@ -11,24 +11,19 @@ class Matrix {
 	}
 
 	private void populateMatrix() {
-		int index = 0;
-		String[] substring;
+	    String[] matrixRows = this.matrixAsString.split( "\n" );
 
-		index = this.matrixAsString.indexOf( "\n", index );
-		if ( index >= 0 ) {
-			substring = this.matrixAsString.substring( index ).split( " " );
-		}else{
-			substring = this.matrixAsString.split( " " );
-		}
+        for ( String s : matrixRows ) {
+            String[] rowString = s.split( " " );
+            int[] rowInt = new int[rowString.length];
+            int index = 0;
 
-		int[] tempArray = new int[substring.length];
-		int x = 0;
+            for ( String s2 : rowString ) {
+                rowInt[index++] = Integer.parseInt( s2 );
+            }
 
-		while ( x < substring.length ) {
-			tempArray[x] = Integer.parseInt( substring[x] );
-			x++;
-		}
-		this.matrix.add( tempArray.clone() );
+            this.matrix.add( rowInt.clone() );
+        }
 	}
 
 	int[] getRow( int rowNumber ) {
