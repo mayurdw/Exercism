@@ -1,82 +1,96 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class Matrix {
-    private String matrixAsString;
-    private List<int[]> matrixRows = new ArrayList<>();
-    private List<int[]> matrixColumns = new ArrayList<>();
-    private int numberOfRows = 0;
-    private int numberOfColumns = 0;
+	private String matrixAsString;
+	private List<int[]> matrix = new ArrayList<>();
 
-    Matrix(String matrixAsString) {
-        this.matrixAsString = matrixAsString;
-        this.populateMatrixRows();
-        this.getNumberOfColumns();
-        this.populateMatrixColumns();
-    }
+	Matrix( String matrixAsString ) {
+		this.matrixAsString = matrixAsString;
+		this.populateMatrix();
+	}
 
-    private void populateMatrixRows(){
-        String[] matrixRows = this.matrixAsString.split("\n");
+	private void populateMatrix() {
+		int index = 0;
+		String[] substring;
 
-        this.numberOfRows = matrixRows.length;
-        for( String s : matrixRows ){
-            String[] rowString = s.split(" ");
-            int[] rowInt = new int[rowString.length];
-            int index = 0;
+		index = this.matrixAsString.indexOf( "\n", index );
+		if ( index >= 0 ) {
+			substring = this.matrixAsString.substring( index ).split( " " );
+		}else{
+			substring = this.matrixAsString.split( " " );
+		}
 
-            for( String s2 : rowString ){
-                rowInt[index++] = Integer.parseInt(s2);
-            }
+		int[] tempArray = new int[substring.length];
+		int x = 0;
 
-            this.matrixRows.add(rowInt.clone());
-        }
-    }
+		while ( x < substring.length ) {
+			tempArray[x] = Integer.parseInt( substring[x] );
+			x++;
+		}
+		this.matrix.add( tempArray.clone() );
+	}
 
-    private void getNumberOfColumns(){
-        int endIndex = 0;
-        int x = 0;
+	int[] getRow( int rowNumber ) {
+		return this.matrix.get( rowNumber - 1 );
+	}
 
-        this.numberOfColumns = 1;
+	int[] getColumn( int columnNumber ) {
+		return new int[0];
+	}
+	/*
+	private void populateMatrixRows() {
+		String[] matrixRows = this.matrixAsString.split( "\n" );
 
-        if ( this.matrixAsString.contains("\n")){
-            endIndex = this.matrixAsString.indexOf("\n");
-        }
-        else{
-            endIndex = this.matrixAsString.length();
-        }
+		this.numberOfRows = matrixRows.length;
+		for ( String s : matrixRows ) {
+			String[] rowString = s.split( " " );
+			int[] rowInt = new int[rowString.length];
+			int index = 0;
 
-        Pattern P = Pattern.compile(" ", Pattern.LITERAL);
-        Matcher m = P.matcher(this.matrixAsString.substring(0, endIndex));
+			for ( String s2 : rowString ) {
+				rowInt[index++] = Integer.parseInt( s2 );
+			}
 
-        while(m.find(x)){
-            this.numberOfColumns++;
-            x = m.start() + 1;
-        }
-    }
+			this.matrixRows.add( rowInt.clone() );
+		}
+	}
 
-    private void populateMatrixColumns(){
-        String[] matrixArray = this.matrixAsString.replaceAll("\n"," ").split(" ");
-        int x = 0, y = 0;
-        int[] tempArray = new int[this.numberOfRows];
+	private void getNumberOfColumns() {
+		int endIndex = 0;
+		int x = 0;
 
-        while( y < this.numberOfColumns ){
-            while( x < this.numberOfRows ){
-                tempArray[x] = Integer.parseInt(matrixArray[y + ( x * this.numberOfColumns)]);
-                x++;
-            }
-            this.matrixColumns.add( tempArray.clone() );
-            y++;
-            x = 0;
-        }
-    }
+		this.numberOfColumns = 1;
 
-    int[] getRow(int rowNumber) {
-        return this.matrixRows.get(rowNumber-1);
-    }
+		if ( this.matrixAsString.contains( "\n" ) ) {
+			endIndex = this.matrixAsString.indexOf( "\n" );
+		} else {
+			endIndex = this.matrixAsString.length();
+		}
 
-    int[] getColumn(int columnNumber) {
-        return this.matrixColumns.get(columnNumber - 1);
-    }
+		Pattern P = Pattern.compile( " ", Pattern.LITERAL );
+		Matcher m = P.matcher( this.matrixAsString.substring( 0, endIndex ) );
+
+		while ( m.find( x ) ) {
+			this.numberOfColumns++;
+			x = m.start() + 1;
+		}
+	}
+
+	private void populateMatrixColumns() {
+		String[] matrixArray = this.matrixAsString.replaceAll( "\n", " " ).split( " " );
+		int x = 0, y = 0;
+		int[] tempArray = new int[this.numberOfRows];
+
+		while ( y < this.numberOfColumns ) {
+			while ( x < this.numberOfRows ) {
+				tempArray[x] = Integer.parseInt( matrixArray[y + ( x * this.numberOfColumns )] );
+				x++;
+			}
+			this.matrixColumns.add( tempArray.clone() );
+			y++;
+			x = 0;
+		}
+	}
+	*/
 }
