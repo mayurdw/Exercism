@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Matrix {
-	private List<int[]> matrix = new ArrayList<>();
+    private int[][] matrix;
 
 	Matrix( String matrixAsString ) {
     	this.populateMatrix(matrixAsString);
@@ -10,30 +10,26 @@ class Matrix {
 
 	private void populateMatrix( String matrixAsString ) {
 	    String[] matrixRows = matrixAsString.split( "\n" );
+        this.matrix = new int[matrixRows.length][matrixRows[0].split( " " ).length];
 
-        for ( String s : matrixRows ) {
-            String[] rowString = s.split( " " );
-            int[] rowInt = new int[rowString.length];
-            int index = 0;
-
-            for ( String s2 : rowString ) {
-                rowInt[index++] = Integer.parseInt( s2 );
+        for ( int i = 0; i < matrixRows.length; i++ ) {
+	        String[] row = matrixRows[i].split( " " );
+	        for( int j = 0; j < row.length; j++ ){
+	            this.matrix[i][j] = Integer.parseInt( row[j] );
             }
-
-            this.matrix.add( rowInt.clone() );
         }
 	}
 
 	int[] getRow( int rowNumber ) {
-		return this.matrix.get( rowNumber - 1 );
+		return this.matrix[rowNumber - 1].clone();
 	}
 
 	int[] getColumn( int columnNumber ) {
-		int[] tempArray = new int[this.matrix.size()];
+		int[] tempArray = new int[this.matrix.length];
         int x = 0;
 
         while( x < tempArray.length ){
-            tempArray[x] = this.matrix.get( x )[columnNumber - 1];
+            tempArray[x] = this.matrix[x][columnNumber - 1];
             x++;
         }
 
