@@ -5,19 +5,15 @@ class Matrix {
     private int[][] matrix;
 
 	Matrix( String matrixAsString ) {
-    	this.populateMatrix(matrixAsString);
-	}
+		String[] matrixRows = matrixAsString.split( "\n" );
+		this.matrix = new int[matrixRows.length][matrixRows[0].split( " " ).length];
 
-	private void populateMatrix( String matrixAsString ) {
-	    String[] matrixRows = matrixAsString.split( "\n" );
-        this.matrix = new int[matrixRows.length][matrixRows[0].split( " " ).length];
-
-        for ( int i = 0; i < matrixRows.length; i++ ) {
-	        String[] row = matrixRows[i].split( " " );
-	        for( int j = 0; j < row.length; j++ ){
-	            this.matrix[i][j] = Integer.parseInt( row[j] );
-            }
-        }
+		for ( int i = 0; i < matrixRows.length; i++ ) {
+			String[] row = matrixRows[i].split( " " );
+			for( int j = 0; j < row.length; j++ ){
+				this.matrix[i][j] = Integer.parseInt( row[j] );
+			}
+		}
 	}
 
 	int[] getRow( int rowNumber ) {
@@ -28,9 +24,8 @@ class Matrix {
 		int[] tempArray = new int[this.matrix.length];
         int x = 0;
 
-        while( x < tempArray.length ){
+        for( ; x < tempArray.length; x++ ){
             tempArray[x] = this.matrix[x][columnNumber - 1];
-            x++;
         }
 
         return tempArray;
