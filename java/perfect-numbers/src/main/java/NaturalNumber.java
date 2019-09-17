@@ -1,21 +1,23 @@
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 class NaturalNumber {
 
     private Classification classification;
     NaturalNumber( int number ){
-        int sumOfFactors = 0;
 
-        for( int x = 1; x <  number; x++ ){
-            if( number % x == 0 ){
-                sumOfFactors+=x;
-            }
+        if( number <= 0 ){
+             throw new IllegalArgumentException("You must supply a natural number (positive integer)");
         }
 
-        if( sumOfFactors == number ){
+        AtomicInteger sumOfFactors = new AtomicInteger();
+
+        IntStream.range(1, number).filter(x -> number % x == 0).forEach(sumOfFactors::addAndGet);
+
+        if( sumOfFactors.get() == number ){
             this.classification = Classification.PERFECT;
         }
-        else if( sumOfFactors > number ){
+        else if( sumOfFactors.get() > number ){
             this.classification = Classification.ABUNDANT;
         }
         else{
