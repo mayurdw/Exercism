@@ -1,11 +1,16 @@
-import java.util.HashSet;
-import java.util.Set;
-
 class SumOfMultiples {
-    int sum = 0;
+    private int sum = 0;
 
     SumOfMultiples(int number, int[] set) {
-        this.sum = number;
+        for( int i = 1; i < number; i++ ){
+            // loop through the set
+            for( int x : set ){
+                if( x!= 0 && i % x == 0 ){
+                    sum += i;
+                    break;
+                }
+            }
+        }
     }
 
     int getSum() {
