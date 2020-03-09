@@ -7,7 +7,6 @@ import static org.junit.Assert.assertEquals;
 
 public class MatrixTest {
 
-    @Ignore("Remove to run test")
     @Test
     public void testCanIdentifySingleSaddlePoint() {
         Matrix matrix = new Matrix(Arrays.asList(
