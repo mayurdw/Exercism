@@ -35,12 +35,10 @@ class Matrix {
                 rowNumber++;
                 if( !row.isEmpty()){
                     final int ROW_MAX = Collections.max(row);
-                    final int COLUMN_POSITION = row.indexOf(ROW_MAX);
-                    List<Integer> column = this.getColumn(COLUMN_POSITION);
-                    final int COLUMN_MIN = Collections.min(column);
-
-                    if( COLUMN_MIN == ROW_MAX ){
-                        this.saddlePoints.add(new MatrixCoordinate( rowNumber, COLUMN_POSITION + 1));
+                    for( int x = 0; x < row.size(); x++ ) {
+                        if ( row.get(x) == ROW_MAX && ( Collections.min(this.getColumn(x)) == row.get(x) ) ) {
+                            this.saddlePoints.add(new MatrixCoordinate(rowNumber, x + 1));
+                        }
                     }
                 }
             }
