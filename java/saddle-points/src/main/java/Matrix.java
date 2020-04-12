@@ -9,7 +9,11 @@ class Matrix {
     private Set<MatrixCoordinate> saddlePoints = new HashSet<>();
 
     Matrix( List<List<Integer>> values ) {
-        this.values = new ArrayList<>( values );
+        this.values = new ArrayList<>( );
+        for( List<Integer> row : values ){
+            this.values.add( List.copyOf( row ) );
+        }
+
         determineSaddlePoints();
     }
 
