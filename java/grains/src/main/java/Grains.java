@@ -12,6 +12,6 @@ class Grains {
 
     BigInteger grainsOnBoard() {
         return BigInteger.ZERO.setBit( 64 ).subtract( BigInteger.ONE );
-    }
+    }o
 
 }
