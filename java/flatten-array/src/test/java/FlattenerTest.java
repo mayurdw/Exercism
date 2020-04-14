@@ -21,7 +21,6 @@ public class FlattenerTest {
         assertEquals(asList(0, '1', "two"), flattener.flatten(asList(0, '1', "two")));
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testASingleLevelOfNestingWithNoNulls() {
         assertEquals(
