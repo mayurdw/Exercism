@@ -28,7 +28,6 @@ public class FlattenerTest {
             flattener.flatten(asList(1, asList('2', 3, 4, 5, "six", "7"), 8)));
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testFiveLevelsOfNestingWithNoNulls() {
         assertEquals(
@@ -42,7 +41,6 @@ public class FlattenerTest {
                                      singletonList(singletonList(singletonList(50)))), "-2")));
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testSixLevelsOfNestingWithNoNulls() {
         assertEquals(
@@ -54,7 +52,6 @@ public class FlattenerTest {
                                                                  singletonList(singletonList(5))), "six", 7), "8")));
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testSixLevelsOfNestingWithNulls() {
         assertEquals(
@@ -69,7 +66,6 @@ public class FlattenerTest {
                                                           "negative two")));
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testNestedListsFullOfNullsOnly() {
         assertEquals(emptyList(),
