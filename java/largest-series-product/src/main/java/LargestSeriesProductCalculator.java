@@ -1,9 +1,17 @@
 class LargestSeriesProductCalculator {
+    char[] inputNumber;
     LargestSeriesProductCalculator(String inputNumber) {
-        throw new UnsupportedOperationException ("Delete this statement and write your own implementation.");
+        this.inputNumber = inputNumber.toCharArray();
     }
 
     long calculateLargestProductForSeriesLength(int numberOfDigits) {
-        throw new UnsupportedOperationException ("Delete this statement and write your own implementation.");
+        long largestProduct = 0, temp = 0;
+
+        temp = Character.getNumericValue( this.inputNumber[0] ) * Character.getNumericValue( this.inputNumber[1] );
+
+        if( temp > largestProduct )
+            largestProduct = temp;
+
+        return largestProduct;
     }
 }
