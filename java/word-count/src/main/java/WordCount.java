@@ -1,10 +1,16 @@
-/*
+import java.util.HashMap;
+import java.util.Map;
 
-Since this exercise has a difficulty of > 4 it doesn't come
-with any starter implementation.
-This is so that you get to practice creating classes and methods
-which is an important part of programming in Java.
+public class WordCount {
+    public Map<String, Integer> phrase( String sentence ) {
+        String[] words = sentence.split( "[^a-zA-Z]" );
+        Map<String, Integer> wordCount = new HashMap<>( );
 
-Please remove this comment when submitting your solution.
+        for( String word : words ){
+            wordCount.merge( word, 1, Integer::sum );
+        }
 
-*/
+        return wordCount;
+    }
+
+}

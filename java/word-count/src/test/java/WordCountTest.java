@@ -30,7 +30,6 @@ public class WordCountTest {
         );
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void countOneOfEachWord() {
         expectedWordCount.put("one", 1);
@@ -43,7 +42,6 @@ public class WordCountTest {
         );
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleOccurrencesOfAWord() {
         expectedWordCount.put("one", 1);
@@ -58,7 +56,6 @@ public class WordCountTest {
         );
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void handlesCrampedLists() {
         expectedWordCount.put("one", 1);
