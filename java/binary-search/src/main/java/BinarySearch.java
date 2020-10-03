@@ -20,21 +20,22 @@ public class BinarySearch{
      * */
     public long indexOf( Integer value ){
         boolean found = false;
-        long listSize = this.list.stream().sorted().count();
+        int startIndex = 0;
+        int endIndex = this.list.size();
         int index = -1;
 
         // Let's do this first on how I would do this in C.
         while( !found ){
-            int mid = ( int )listSize / 2;
+            int mid = ( endIndex + startIndex ) / 2;
             if( value.equals( this.list.get( mid ) ) ){
                 index = mid;
                 found = true;
             } else if( value > mid ){
                 // uh oh I think it is stuck in an infinite loop
                 // Yes this goes in an infinite loop
-                listSize = listSize - mid;
+                startIndex = mid + 1;
             } else {
-                listSize = mid;
+                endIndex = mid - 1;
             }
         }
 
