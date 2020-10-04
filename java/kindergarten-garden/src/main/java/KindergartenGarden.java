@@ -4,6 +4,9 @@ import java.util.*;
  * Database to remember the plants of students
  * */
 class KindergartenGarden {
+    /**
+     * Local database that exists within each object of Kindergarten Garden
+     * */
     private final Map<String, List<Plant>> DATABASE = new HashMap<>();
 
     /**
@@ -26,11 +29,13 @@ class KindergartenGarden {
                             "KINCAID",
                             "LARRY");
             final String[] ROWS = garden.split( "\n" );
+            int multiplier = 0;
 
             for( String student : STUDENTS ) {
                 List<Plant> plantList = new ArrayList<>();
                 for( String row : ROWS ){
                     int index = STUDENTS.indexOf( student );
+                    index += multiplier;
                     if( ( index + 1 ) < row.length() ) {
                         String seeds = row.substring(index, index + 2);
                         plantList.add(Plant.getPlant(seeds.charAt(0)));
@@ -38,6 +43,7 @@ class KindergartenGarden {
                     }
                 }
                 this.DATABASE.put( student, plantList );
+                multiplier += 1;
             }
         }
     }
@@ -48,10 +54,7 @@ class KindergartenGarden {
      * @return {@link List} of type {@link Plant}
      * */
     List<Plant> getPlantsOfStudent(String student) {
-        if( student != null ){
-            return this.DATABASE.getOrDefault( student.toUpperCase(), null );
-        }
-        return null;
+        return this.DATABASE.getOrDefault( student.toUpperCase(), null );
     }
 
 }
