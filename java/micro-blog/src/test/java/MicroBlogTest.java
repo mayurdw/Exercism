@@ -19,7 +19,6 @@ public class MicroBlogTest {
         assertEquals(expected, microBlog.truncate("Hello there"));
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void germanLanguageShort_broth() {
         String expected = "brühe";
