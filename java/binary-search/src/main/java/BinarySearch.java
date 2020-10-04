@@ -5,6 +5,7 @@ import java.util.List;
  * */
 public class BinarySearch{
     List<Integer> list;
+
     /**
      * Main constructor
      * @param list {@link List} of {@link Integer} type
@@ -24,23 +25,29 @@ public class BinarySearch{
         int endIndex = this.list.size();
         int index = -1;
 
-        // TODO: Figure this out using the loop below
-        if( !this.list.contains( value ) ){
-            throw new ValueNotFoundException( "Value not in array" );
-        }
-
-        // Let's do this first on how I would do this in C.
         while( !found ){
             int mid = ( endIndex + startIndex ) / 2;
-            int indexValue = this.list.get( mid );
-            if( value.equals( indexValue ) ){
-                index = mid;
-                found = true;
-            } else if( value > indexValue ){
-                startIndex = mid + 1;
+            if( mid >= this.list.size() ){
+                break;
             } else {
-                endIndex = mid - 1;
+                int indexValue = this.list.get( mid );
+
+                if (value.equals(indexValue)) {
+                    index = mid;
+                    found = true;
+                } else if( startIndex == endIndex ) {
+                    // we haven't found the match. it doesn't exist
+                    break;
+                } else if (value > indexValue) {
+                    startIndex = mid + 1;
+                } else {
+                    endIndex = mid - 1;
+                }
             }
+        }
+
+        if( !found ){
+            throw new ValueNotFoundException( "Value not in array" );
         }
 
         return index;
