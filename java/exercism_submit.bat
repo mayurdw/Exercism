@@ -1,1 +1,0 @@
-exercism submit src\main\java\*.java
