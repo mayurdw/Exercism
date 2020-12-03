@@ -28,7 +28,7 @@ public class BankAccount{
     /**
      * Opens the bank account
      * */
-    public void open() {
+    public synchronized void open() {
         this.accountOpened = true;
         this.accountBalance = 0;
     }
@@ -37,7 +37,7 @@ public class BankAccount{
      * Gets balance of the account
      * @throws BankAccountActionInvalidException with message {@link BankAccount#ACCOUNT_CLOSED}
      * */
-    public int getBalance() throws BankAccountActionInvalidException {
+    public synchronized int getBalance() throws BankAccountActionInvalidException {
         if( !this.accountOpened ){
             throw new BankAccountActionInvalidException( BankAccount.ACCOUNT_CLOSED );
         }
@@ -51,7 +51,7 @@ public class BankAccount{
      * @throws BankAccountActionInvalidException with message {@link BankAccount#AMOUNT_INVALID} if amount is less than 0
      * @throws BankAccountActionInvalidException with message {@link BankAccount#ACCOUNT_CLOSED} if account is closed
      * */
-    public void deposit( int amount ) throws BankAccountActionInvalidException {
+    public synchronized void deposit( int amount ) throws BankAccountActionInvalidException {
 
         if( !this.accountOpened ) {
             throw new BankAccountActionInvalidException( BankAccount.ACCOUNT_CLOSED );
@@ -69,7 +69,7 @@ public class BankAccount{
      * @throws BankAccountActionInvalidException with message {@link BankAccount#ACCOUNT_CLOSED} if account is closed
      * @throws BankAccountActionInvalidException for balance related errors
      * */
-    public void withdraw( int amount ) throws BankAccountActionInvalidException{
+    public synchronized void withdraw( int amount ) throws BankAccountActionInvalidException{
         if( !this.accountOpened ) {
             throw new BankAccountActionInvalidException( BankAccount.ACCOUNT_CLOSED );
         } else if( amount < 0 ) {
@@ -86,7 +86,7 @@ public class BankAccount{
     /**
      * Closes the account & resets the balance
  * */
-    public void close(){
+    public synchronized void close(){
         if( this.accountOpened ){
             this.accountBalance = 0;
             this.accountOpened = false;
