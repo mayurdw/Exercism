@@ -1,9 +1,8 @@
 import java.util.Arrays;
-import java.util.regex.Pattern;
-
 /**
  * Phone Number class
- * Handles different phone number formatting for NANP countries
+ * Handles different phone number formatting for
+ * North American Numbering Plan countries
  */
 public class PhoneNumber {
     /**
@@ -15,8 +14,15 @@ public class PhoneNumber {
      * Public & only constructor
      *
      * @param number Formatted phone number string
+     * @throws IllegalArgumentException if number is incorrect
      */
     public PhoneNumber( String number ) {
+        if( number.toLowerCase().matches( ".*[a-z]+.*" ) ){
+            throw new IllegalArgumentException( "letters not permitted" );
+        } else if( number.matches( ".*[@:!]+.*" ) ){
+            throw new IllegalArgumentException("punctuations not permitted");
+        }
+
         this.number = Arrays.stream( number.split( "" ) ).
                 filter( i -> i.matches( "\\d+" ) ).
                 collect(
@@ -39,12 +45,34 @@ public class PhoneNumber {
                 throw new IllegalArgumentException( message );
             }
         }
+
+        this.codeCheck( "area", this.number.charAt( 0 ) );
+
+        this.codeCheck( "exchange", this.number.charAt( 3 ) );
+    }
+
+    /**
+     * Checks if code is less than 2
+     * @param errorMessage Exception message to be used
+     * @param code to be checked
+     * @throws IllegalArgumentException if code is invalid
+     * */
+    private void codeCheck( String errorMessage, char code ){
+        if( code < '2' ){
+            String codeMessage = switch( code ){
+                case '0' -> "zero";
+                case '1' -> "one";
+                default -> "unknown";
+            };
+
+            throw new IllegalArgumentException( errorMessage + " code cannot start with " + codeMessage );
+        }
     }
 
     /**
      * Returns the raw number without any formatting
      *
-     * @return phone number
+     * @return {@link PhoneNumber#number}
      */
     public String getNumber() {
         return this.number;
