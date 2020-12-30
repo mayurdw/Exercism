@@ -20,7 +20,7 @@ public class RunLengthEncoding {
                     }
                     code.append( currentAlpha );
                     currentAlpha = letter;
-                    count = 0;
+                    count = 1;
                 } else {
                     count++;
                 }
