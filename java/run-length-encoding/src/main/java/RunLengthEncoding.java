@@ -1,6 +1,4 @@
 import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Run Length Encoding and Decoding algorithm
@@ -49,6 +47,25 @@ public class RunLengthEncoding {
         if( code != null ){
             if( code.matches( "^[a-zA-Z]*$" ) ){
                 sequence.append( code );
+            } else {
+                char[] codes = code.toCharArray();
+                StringBuilder count = new StringBuilder();
+
+                for ( char c : codes ) {
+                    if ( Character.isDigit( c ) ) {
+                        count.append( c - '0' );
+                    } else {
+                        if ( count.length() != 0 ) {
+                            char[] subSequence = new char[Integer.parseInt( count.toString() )];
+
+                            Arrays.fill( subSequence, c );
+                            sequence.append( subSequence );
+                            count.setLength( 0 );
+                        } else {
+                            sequence.append( c );
+                        }
+                    }
+                }
             }
         }
 
