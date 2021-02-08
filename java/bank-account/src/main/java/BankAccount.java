@@ -14,11 +14,6 @@ public class BankAccount{
     private boolean accountOpened = false;
 
     /**
-     * Message for when bank account is closed
-     * */
-    private static final String ACCOUNT_CLOSED = "Account closed";
-
-    /**
      * Message for when negative amount is deposited or withdrawn
      * */
     private static final String AMOUNT_INVALID = "Cannot deposit or withdraw negative amount";
@@ -34,45 +29,52 @@ public class BankAccount{
     }
 
     /**
-     * Gets balance of the account
-     * @throws BankAccountActionInvalidException with message {@link BankAccount#ACCOUNT_CLOSED}
+     * @throws BankAccountActionInvalidException if {@link BankAccount#accountOpened} is false
      * */
-    public synchronized int getBalance() throws BankAccountActionInvalidException {
+    private void checkAccountStatus( ) throws BankAccountActionInvalidException {
         if( !this.accountOpened ){
-            throw new BankAccountActionInvalidException( BankAccount.ACCOUNT_CLOSED );
+            throw new BankAccountActionInvalidException( "Account closed" );
         }
+    }
 
-        return this.accountBalance;
+    /**
+     * Gets balance of the account
+     * */
+    public int getBalance() throws BankAccountActionInvalidException {
+        this.checkAccountStatus();
+
+        synchronized ( this ) {
+            return this.accountBalance;
+        }
     }
 
     /**
      * Deposits fixed amount into the bank account
      * @param amount amount to be deposited
      * @throws BankAccountActionInvalidException with message {@link BankAccount#AMOUNT_INVALID} if amount is less than 0
-     * @throws BankAccountActionInvalidException with message {@link BankAccount#ACCOUNT_CLOSED} if account is closed
      * */
-    public synchronized void deposit( int amount ) throws BankAccountActionInvalidException {
+    public void deposit( int amount ) throws BankAccountActionInvalidException {
+        this.checkAccountStatus();
 
-        if( !this.accountOpened ) {
-            throw new BankAccountActionInvalidException( BankAccount.ACCOUNT_CLOSED );
-        } else if( amount < 0 ) {
+        if( amount < 0 ) {
             throw new BankAccountActionInvalidException( BankAccount.AMOUNT_INVALID );
         }
 
-        this.accountBalance += amount;
+        synchronized ( this ) {
+            this.accountBalance += amount;
+        }
     }
 
     /**
      * Withdraws fixed amount into the bank account
      * @param amount amount to be withdrawn
      * @throws BankAccountActionInvalidException with message {@link BankAccount#AMOUNT_INVALID} if amount is less than 0
-     * @throws BankAccountActionInvalidException with message {@link BankAccount#ACCOUNT_CLOSED} if account is closed
      * @throws BankAccountActionInvalidException for balance related errors
      * */
-    public synchronized void withdraw( int amount ) throws BankAccountActionInvalidException{
-        if( !this.accountOpened ) {
-            throw new BankAccountActionInvalidException( BankAccount.ACCOUNT_CLOSED );
-        } else if( amount < 0 ) {
+    public void withdraw( int amount ) throws BankAccountActionInvalidException{
+        this.checkAccountStatus();
+
+        if( amount < 0 ) {
             throw new BankAccountActionInvalidException( BankAccount.AMOUNT_INVALID );
         } else if( 0 == this.accountBalance ) {
             throw new BankAccountActionInvalidException( "Cannot withdraw money from an empty account" );
@@ -80,7 +82,9 @@ public class BankAccount{
             throw new BankAccountActionInvalidException( "Cannot withdraw more money than is currently in the account" );
         }
 
-        this.accountBalance -= amount;
+        synchronized ( this ) {
+            this.accountBalance -= amount;
+        }
     }
 
     /**
