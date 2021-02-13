@@ -1,12 +1,11 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Grep Tool Emulator
@@ -46,6 +45,20 @@ public class GrepTool {
         }
     }
 
+    // TODO: Need to combine with GREP_OPTIONS
+    // TODO: Need invert flag
+    private static class Grep_Flags {
+        boolean caseInsensitive;
+        boolean fileNamesOnly;
+        boolean includeLineNumbers;
+
+        Grep_Flags( List<GREP_OPTIONS> grepOptions ){
+            this.caseInsensitive = grepOptions.contains( GREP_OPTIONS.CASE_INSENSITIVE );
+            this.fileNamesOnly = grepOptions.contains( GREP_OPTIONS.NAMES_OF_FILES );
+            this.includeLineNumbers = grepOptions.contains( GREP_OPTIONS.PRINT_LINE_NUMBER );
+        }
+    }
+
     /**
      * File Opening helper
      *
@@ -59,22 +72,14 @@ public class GrepTool {
         return fileContents.split( "\n" );
     }
 
-    private String returnMatches( String[] fileContents, List<GREP_OPTIONS> grepOptions, String pattern ) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for ( GREP_OPTIONS grepOption : grepOptions ) {
-            switch ( grepOption ) {
-                case NONE:
-                default: {
-                    for ( String a : fileContents ) {
-                        if ( !a.isBlank() && a.contains( pattern ) ) {
-                        stringBuilder.append( a, 0, a.length() - 1 );
-                        }
-                    }
-                }
-            }
+    private String matchPattern( String pattern, String line, boolean caseInsensitive ){
+        if( line.contains( pattern ) ){
+            return line.substring( 0, line.length() - 1 );
+        } else if( caseInsensitive && line.toLowerCase( Locale.ROOT ).contains( pattern ) ){
+            return line.substring( 0, line.length() - 1 );
         }
-        return stringBuilder.toString();
+
+        return "";
     }
 
     /**
@@ -85,19 +90,41 @@ public class GrepTool {
      * @param fileNames to be scanned
      */
     public String grep( String pattern, List<String> options, List<String> fileNames ) {
-        List<GREP_OPTIONS> grepOptions = GREP_OPTIONS.extractOptions( options );
+        Grep_Flags grepFlags = new Grep_Flags( GREP_OPTIONS.extractOptions( options ) );
+        final boolean fileNamePrefix = fileNames.size() > 1;
         StringBuilder stringBuilder = new StringBuilder();
 
-        for ( String fileName : fileNames ) {
-            String[] fileContents;
+        if( grepFlags.caseInsensitive ){
+            pattern = pattern.toLowerCase( Locale.ROOT );
+        }
+
+        for( String fileName : fileNames ){
             try {
-                fileContents = this.fileReadHelper( fileName );
-                stringBuilder.append( this.returnMatches( fileContents, grepOptions, pattern ) );
-            } catch ( IOException e ) {
+                String[] fileLines = this.fileReadHelper( fileName );
+                int lineNumber = 1;
+
+                for( String line : fileLines ){
+
+                    String match = this.matchPattern( pattern, line, grepFlags.caseInsensitive );
+                    if( !match.isEmpty() ){
+                        if( grepFlags.fileNamesOnly ){
+                            stringBuilder.append( fileName );
+                            break;
+                        } else {
+                            if( grepFlags.includeLineNumbers ){
+                                stringBuilder.append( lineNumber ).append( ":" );
+                            }
+                            stringBuilder.append( match );
+                        }
+                    }
+                    lineNumber++;
+                }
+            } catch ( Exception e ){
                 e.printStackTrace();
                 return "";
             }
         }
+
         return stringBuilder.toString();
     }
 
