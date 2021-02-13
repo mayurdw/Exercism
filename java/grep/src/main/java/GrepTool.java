@@ -11,22 +11,28 @@ import java.util.Locale;
  * Grep Tool Emulator
  */
 public class GrepTool {
+    private static class Grep_Flags {
+        private enum GREP_OPTIONS {
+            NONE( "" ),
+            PRINT_LINE_NUMBER( "-n" ),
+            NAMES_OF_FILES( "-l" ),
+            CASE_INSENSITIVE( "-i" ),
+            INVERT_MATCHING( "-v" ),
+            ONLY_MATCH_ENTIRE_LINES( "-x" );
 
-    private enum GREP_OPTIONS {
-        NONE( "" ),
-        PRINT_LINE_NUMBER( "-n" ),
-        NAMES_OF_FILES( "-l" ),
-        CASE_INSENSITIVE( "-i" ),
-        INVERT_MATCHING( "-v" ),
-        ONLY_MATCH_ENTIRE_LINES( "-x" );
+            private final String OPTIONS;
 
-        private final String OPTIONS;
-
-        GREP_OPTIONS( String options ) {
-            this.OPTIONS = options;
+            GREP_OPTIONS( String options ) {
+                this.OPTIONS = options;
+            }
         }
 
-        static List<GREP_OPTIONS> extractOptions( List<String> options ) {
+        boolean caseInsensitive;
+        boolean fileNamesOnly;
+        boolean includeLineNumbers;
+        boolean invertMatches;
+
+        private List<GREP_OPTIONS> extractOptions( List<String> options ) {
             List<GREP_OPTIONS> grepOptions = new ArrayList<>();
 
             if ( options != null && !options.isEmpty() ) {
@@ -37,25 +43,15 @@ public class GrepTool {
                 }
             }
 
-            if ( grepOptions.isEmpty() ) {
-                grepOptions.add( NONE );
-            }
-
             return grepOptions;
         }
-    }
 
-    // TODO: Need to combine with GREP_OPTIONS
-    // TODO: Need invert flag
-    private static class Grep_Flags {
-        boolean caseInsensitive;
-        boolean fileNamesOnly;
-        boolean includeLineNumbers;
-
-        Grep_Flags( List<GREP_OPTIONS> grepOptions ){
-            this.caseInsensitive = grepOptions.contains( GREP_OPTIONS.CASE_INSENSITIVE );
-            this.fileNamesOnly = grepOptions.contains( GREP_OPTIONS.NAMES_OF_FILES );
+        Grep_Flags( List<String> grepFlags ){
+            List<GREP_OPTIONS> grepOptions = this.extractOptions( grepFlags );
             this.includeLineNumbers = grepOptions.contains( GREP_OPTIONS.PRINT_LINE_NUMBER );
+            this.fileNamesOnly = grepOptions.contains( GREP_OPTIONS.NAMES_OF_FILES );
+            this.caseInsensitive = grepOptions.contains( GREP_OPTIONS.CASE_INSENSITIVE );
+            this.invertMatches = grepOptions.contains( GREP_OPTIONS.INVERT_MATCHING );
         }
     }
 
@@ -90,7 +86,7 @@ public class GrepTool {
      * @param fileNames to be scanned
      */
     public String grep( String pattern, List<String> options, List<String> fileNames ) {
-        Grep_Flags grepFlags = new Grep_Flags( GREP_OPTIONS.extractOptions( options ) );
+        Grep_Flags grepFlags = new Grep_Flags( options );
         final boolean fileNamePrefix = fileNames.size() > 1;
         StringBuilder stringBuilder = new StringBuilder();
 
