@@ -31,6 +31,7 @@ public class GrepTool {
         boolean fileNamesOnly;
         boolean includeLineNumbers;
         boolean invertMatches;
+        boolean fullLineMatches;
 
         private List<GREP_OPTIONS> extractOptions( List<String> options ) {
             List<GREP_OPTIONS> grepOptions = new ArrayList<>();
@@ -52,6 +53,7 @@ public class GrepTool {
             this.fileNamesOnly = grepOptions.contains( GREP_OPTIONS.NAMES_OF_FILES );
             this.caseInsensitive = grepOptions.contains( GREP_OPTIONS.CASE_INSENSITIVE );
             this.invertMatches = grepOptions.contains( GREP_OPTIONS.INVERT_MATCHING );
+            this.fullLineMatches = grepOptions.contains( GREP_OPTIONS.ONLY_MATCH_ENTIRE_LINES );
         }
     }
 
@@ -68,14 +70,22 @@ public class GrepTool {
         return fileContents.split( "\n" );
     }
 
-    private String matchPattern( String pattern, String line, boolean caseInsensitive ){
-        if( line.contains( pattern ) ){
-            return line.substring( 0, line.length() - 1 );
-        } else if( caseInsensitive && line.toLowerCase( Locale.ROOT ).contains( pattern ) ){
-            return line.substring( 0, line.length() - 1 );
+    // TODO: Invert matches
+    private String matchPattern( String pattern, String line, boolean caseInsensitive, boolean fullLineMatch ){
+        boolean matchFound = false;
+        if( fullLineMatch ){
+            if( line.substring( 0, line.length() - 1 ).equals( pattern ) ){
+                matchFound = true;
+            }
+        } else if( line.contains( pattern ) ){
+            matchFound = true;
         }
 
-        return "";
+        if( caseInsensitive && line.toLowerCase( Locale.ROOT ).contains( pattern ) ){
+            matchFound = true;
+        }
+
+        return matchFound ? line.substring( 0, line.length() - 1 ) : "";
     }
 
     /**
@@ -100,9 +110,11 @@ public class GrepTool {
                 int lineNumber = 1;
 
                 for( String line : fileLines ){
-
-                    String match = this.matchPattern( pattern, line, grepFlags.caseInsensitive );
+                    String match = this.matchPattern( pattern, line, grepFlags.caseInsensitive, grepFlags.fullLineMatches );
                     if( !match.isEmpty() ){
+                        if( !stringBuilder.isEmpty() ){
+                            stringBuilder.append( "\n" );
+                        }
                         if( grepFlags.fileNamesOnly ){
                             stringBuilder.append( fileName );
                             break;

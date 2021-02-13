@@ -104,7 +104,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileOneMatchPrintFileNamesFlag() {
         String expected = "paradise-lost.txt";
@@ -118,7 +117,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileOneMatchEntireLinesFlag() {
         String expected = "With loss of Eden, till one greater Man";
@@ -132,7 +130,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileOneMatchMultipleFlags() {
         String expected = "9:Of Atreus, Agamemnon, King of men.";
@@ -146,7 +143,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileSeveralMatchesNoFlags() {
         String expected = "Nor how it may concern my modesty,\n"
@@ -162,7 +158,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileSeveralMatchesPrintLineNumbersFlag() {
         String expected = "3:Nor how it may concern my modesty,\n"
@@ -178,7 +173,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileSeveralMatchesMatchEntireLineFlag() {
         String expected = "";
@@ -192,7 +186,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileSeveralMatchesCaseInsensitiveFlag() {
         String expected = "Achilles sing, O Goddess! Peleus' son;\n"
@@ -207,7 +200,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileSeveralMatchesInvertedFlag() {
         String expected = "Brought Death into the World, and all our woe,\n"
