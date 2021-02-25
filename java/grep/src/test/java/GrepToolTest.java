@@ -1,10 +1,9 @@
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -145,9 +144,10 @@ public class GrepToolTest {
 
     @Test
     public void oneFileSeveralMatchesNoFlags() {
-        String expected = "Nor how it may concern my modesty,\n"
-            + "But I beseech your grace that I may know\n"
-            + "The worst that may befall me in this case,";
+        String expected = """
+                Nor how it may concern my modesty,
+                But I beseech your grace that I may know
+                The worst that may befall me in this case,""";
 
         String actual = grepTool.grep(
             "may",
@@ -160,9 +160,10 @@ public class GrepToolTest {
 
     @Test
     public void oneFileSeveralMatchesPrintLineNumbersFlag() {
-        String expected = "3:Nor how it may concern my modesty,\n"
-            + "5:But I beseech your grace that I may know\n"
-            + "6:The worst that may befall me in this case,";
+        String expected = """
+                3:Nor how it may concern my modesty,
+                5:But I beseech your grace that I may know
+                6:The worst that may befall me in this case,""";
 
         String actual = grepTool.grep(
             "may",
@@ -202,11 +203,12 @@ public class GrepToolTest {
 
     @Test
     public void oneFileSeveralMatchesInvertedFlag() {
-        String expected = "Brought Death into the World, and all our woe,\n"
-            + "With loss of Eden, till one greater Man\n"
-            + "Restore us, and regain the blissful Seat,\n"
-            + "Sing Heav'nly Muse, that on the secret top\n"
-            + "That Shepherd, who first taught the chosen Seed";
+        String expected = """
+                Brought Death into the World, and all our woe,
+                With loss of Eden, till one greater Man
+                Restore us, and regain the blissful Seat,
+                Sing Heav'nly Muse, that on the secret top
+                That Shepherd, who first taught the chosen Seed""";
 
         String actual = grepTool.grep(
             "Of",
@@ -217,7 +219,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileNoMatchesVariousFlags() {
         String expected = "";
@@ -231,7 +232,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileOneMatchFileFlagTakesPrecedenceOverLineFlag() {
         String expected = "iliad.txt";
@@ -245,17 +245,17 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void oneFileSeveralMatchesInvertedAndMatchEntireLinesFlags() {
-        String expected = "Achilles sing, O Goddess! Peleus' son;\n"
-            + "His wrath pernicious, who ten thousand woes\n"
-            + "Caused to Achaia's host, sent many a soul\n"
-            + "And Heroes gave (so stood the will of Jove)\n"
-            + "To dogs and to all ravening fowls a prey,\n"
-            + "When fierce dispute had separated once\n"
-            + "The noble Chief Achilles from the son\n"
-            + "Of Atreus, Agamemnon, King of men.";
+        String expected = """
+                Achilles sing, O Goddess! Peleus' son;
+                His wrath pernicious, who ten thousand woes
+                Caused to Achaia's host, sent many a soul
+                And Heroes gave (so stood the will of Jove)
+                To dogs and to all ravening fowls a prey,
+                When fierce dispute had separated once
+                The noble Chief Achilles from the son
+                Of Atreus, Agamemnon, King of men.""";
 
         String actual = grepTool.grep(
             "Illustrious into Ades premature,",
@@ -266,7 +266,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesOneMatchNoFlags() {
         String expected = "iliad.txt:Of Atreus, Agamemnon, King of men.";
@@ -280,12 +279,12 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesSeveralMatchesNoFlags() {
-        String expected = "midsummer-night.txt:Nor how it may concern my modesty,\n"
-            + "midsummer-night.txt:But I beseech your grace that I may know\n"
-            + "midsummer-night.txt:The worst that may befall me in this case,";
+        String expected = """
+                midsummer-night.txt:Nor how it may concern my modesty,
+                midsummer-night.txt:But I beseech your grace that I may know
+                midsummer-night.txt:The worst that may befall me in this case,""";
 
         String actual = grepTool.grep(
             "may",
@@ -296,13 +295,13 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesSeveralMatchesPrintLineNumbersFlag() {
-        String expected = "midsummer-night.txt:5:But I beseech your grace that I may know\n"
-            + "midsummer-night.txt:6:The worst that may befall me in this case,\n"
-            + "paradise-lost.txt:2:Of that Forbidden Tree, whose mortal tast\n"
-            + "paradise-lost.txt:6:Sing Heav'nly Muse, that on the secret top";
+        String expected = """
+                midsummer-night.txt:5:But I beseech your grace that I may know
+                midsummer-night.txt:6:The worst that may befall me in this case,
+                paradise-lost.txt:2:Of that Forbidden Tree, whose mortal tast
+                paradise-lost.txt:6:Sing Heav'nly Muse, that on the secret top""";
 
         String actual = grepTool.grep(
             "that",
@@ -313,7 +312,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesOneMatchPrintFileNamesFlag() {
         String expected = "iliad.txt\n"
@@ -328,19 +326,19 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesSeveralMatchesCaseInsensitiveFlag() {
-        String expected = "iliad.txt:Caused to Achaia's host, sent many a soul\n"
-            + "iliad.txt:Illustrious into Ades premature,\n"
-            + "iliad.txt:And Heroes gave (so stood the will of Jove)\n"
-            + "iliad.txt:To dogs and to all ravening fowls a prey,\n"
-            + "midsummer-night.txt:I do entreat your grace to pardon me.\n"
-            + "midsummer-night.txt:In such a presence here to plead my thoughts;\n"
-            + "midsummer-night.txt:If I refuse to wed Demetrius.\n"
-            + "paradise-lost.txt:Brought Death into the World, and all our woe,\n"
-            + "paradise-lost.txt:Restore us, and regain the blissful Seat,\n"
-            + "paradise-lost.txt:Sing Heav'nly Muse, that on the secret top";
+        String expected = """
+                iliad.txt:Caused to Achaia's host, sent many a soul
+                iliad.txt:Illustrious into Ades premature,
+                iliad.txt:And Heroes gave (so stood the will of Jove)
+                iliad.txt:To dogs and to all ravening fowls a prey,
+                midsummer-night.txt:I do entreat your grace to pardon me.
+                midsummer-night.txt:In such a presence here to plead my thoughts;
+                midsummer-night.txt:If I refuse to wed Demetrius.
+                paradise-lost.txt:Brought Death into the World, and all our woe,
+                paradise-lost.txt:Restore us, and regain the blissful Seat,
+                paradise-lost.txt:Sing Heav'nly Muse, that on the secret top""";
 
         String actual = grepTool.grep(
             "TO",
@@ -351,12 +349,12 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesSeveralMatchesInvertedFlag() {
-        String expected = "iliad.txt:Achilles sing, O Goddess! Peleus' son;\n"
-            + "iliad.txt:The noble Chief Achilles from the son\n"
-            + "midsummer-night.txt:If I refuse to wed Demetrius.";
+        String expected = """
+                iliad.txt:Achilles sing, O Goddess! Peleus' son;
+                iliad.txt:The noble Chief Achilles from the son
+                midsummer-night.txt:If I refuse to wed Demetrius.""";
 
         String actual = grepTool.grep(
             "a",
@@ -367,7 +365,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesOneMatchEntireLinesFlag() {
         String expected = "midsummer-night.txt:But I beseech your grace that I may know";
@@ -381,7 +378,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesOneMatchMultipleFlags() {
         String expected = "paradise-lost.txt:4:With loss of Eden, till one greater Man";
@@ -395,7 +391,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesNoMatchesVariousFlags() {
         String expected = "";
@@ -409,7 +404,6 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesSeveralMatchesFileFlagTakesPrecedenceOverLineNumberFlag() {
         String expected = "iliad.txt\n"
@@ -424,32 +418,32 @@ public class GrepToolTest {
         assertEquals(expected, actual);
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void multipleFilesSeveralMatchesInvertedAndMatchEntireLinesFlags() {
-        String expected = "iliad.txt:Achilles sing, O Goddess! Peleus' son;\n"
-            + "iliad.txt:His wrath pernicious, who ten thousand woes\n"
-            + "iliad.txt:Caused to Achaia's host, sent many a soul\n"
-            + "iliad.txt:And Heroes gave (so stood the will of Jove)\n"
-            + "iliad.txt:To dogs and to all ravening fowls a prey,\n"
-            + "iliad.txt:When fierce dispute had separated once\n"
-            + "iliad.txt:The noble Chief Achilles from the son\n"
-            + "iliad.txt:Of Atreus, Agamemnon, King of men.\n"
-            + "midsummer-night.txt:I do entreat your grace to pardon me.\n"
-            + "midsummer-night.txt:I know not by what power I am made bold,\n"
-            + "midsummer-night.txt:Nor how it may concern my modesty,\n"
-            + "midsummer-night.txt:In such a presence here to plead my thoughts;\n"
-            + "midsummer-night.txt:But I beseech your grace that I may know\n"
-            + "midsummer-night.txt:The worst that may befall me in this case,\n"
-            + "midsummer-night.txt:If I refuse to wed Demetrius.\n"
-            + "paradise-lost.txt:Of Mans First Disobedience, and the Fruit\n"
-            + "paradise-lost.txt:Of that Forbidden Tree, whose mortal tast\n"
-            + "paradise-lost.txt:Brought Death into the World, and all our woe,\n"
-            + "paradise-lost.txt:With loss of Eden, till one greater Man\n"
-            + "paradise-lost.txt:Restore us, and regain the blissful Seat,\n"
-            + "paradise-lost.txt:Sing Heav'nly Muse, that on the secret top\n"
-            + "paradise-lost.txt:Of Oreb, or of Sinai, didst inspire\n"
-            + "paradise-lost.txt:That Shepherd, who first taught the chosen Seed";
+        String expected = """
+                iliad.txt:Achilles sing, O Goddess! Peleus' son;
+                iliad.txt:His wrath pernicious, who ten thousand woes
+                iliad.txt:Caused to Achaia's host, sent many a soul
+                iliad.txt:And Heroes gave (so stood the will of Jove)
+                iliad.txt:To dogs and to all ravening fowls a prey,
+                iliad.txt:When fierce dispute had separated once
+                iliad.txt:The noble Chief Achilles from the son
+                iliad.txt:Of Atreus, Agamemnon, King of men.
+                midsummer-night.txt:I do entreat your grace to pardon me.
+                midsummer-night.txt:I know not by what power I am made bold,
+                midsummer-night.txt:Nor how it may concern my modesty,
+                midsummer-night.txt:In such a presence here to plead my thoughts;
+                midsummer-night.txt:But I beseech your grace that I may know
+                midsummer-night.txt:The worst that may befall me in this case,
+                midsummer-night.txt:If I refuse to wed Demetrius.
+                paradise-lost.txt:Of Mans First Disobedience, and the Fruit
+                paradise-lost.txt:Of that Forbidden Tree, whose mortal tast
+                paradise-lost.txt:Brought Death into the World, and all our woe,
+                paradise-lost.txt:With loss of Eden, till one greater Man
+                paradise-lost.txt:Restore us, and regain the blissful Seat,
+                paradise-lost.txt:Sing Heav'nly Muse, that on the secret top
+                paradise-lost.txt:Of Oreb, or of Sinai, didst inspire
+                paradise-lost.txt:That Shepherd, who first taught the chosen Seed""";
 
         String actual = grepTool.grep(
             "Illustrious into Ades premature,",
@@ -462,7 +456,7 @@ public class GrepToolTest {
 
     private void writeToFile(String filename, List<String> contents) throws IOException {
         Path file = Paths.get(filename);
-        Files.write(file, contents, Charset.forName("UTF-8"));
+        Files.write(file, contents, StandardCharsets.UTF_8 );
     }
 
     private void deleteFile(String filename) throws IOException {

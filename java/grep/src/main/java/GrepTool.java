@@ -47,7 +47,7 @@ public class GrepTool {
             return grepOptions;
         }
 
-        Grep_Flags( List<String> grepFlags ){
+        Grep_Flags( List<String> grepFlags ) {
             List<GREP_OPTIONS> grepOptions = this.extractOptions( grepFlags );
             this.includeLineNumbers = grepOptions.contains( GREP_OPTIONS.PRINT_LINE_NUMBER );
             this.fileNamesOnly = grepOptions.contains( GREP_OPTIONS.NAMES_OF_FILES );
@@ -70,24 +70,6 @@ public class GrepTool {
         return fileContents.split( "\n" );
     }
 
-    // TODO: Invert matches
-    private String matchPattern( String pattern, String line, boolean caseInsensitive, boolean fullLineMatch ){
-        boolean matchFound = false;
-        if( fullLineMatch ){
-            if( line.substring( 0, line.length() - 1 ).equals( pattern ) ){
-                matchFound = true;
-            }
-        } else if( line.contains( pattern ) ){
-            matchFound = true;
-        }
-
-        if( caseInsensitive && line.toLowerCase( Locale.ROOT ).contains( pattern ) ){
-            matchFound = true;
-        }
-
-        return matchFound ? line.substring( 0, line.length() - 1 ) : "";
-    }
-
     /**
      * Returns the matched patterns
      *
@@ -100,26 +82,53 @@ public class GrepTool {
         final boolean fileNamePrefix = fileNames.size() > 1;
         StringBuilder stringBuilder = new StringBuilder();
 
-        if( grepFlags.caseInsensitive ){
+        if ( grepFlags.caseInsensitive ) {
             pattern = pattern.toLowerCase( Locale.ROOT );
         }
 
-        for( String fileName : fileNames ){
+        for ( String fileName : fileNames ) {
             try {
                 String[] fileLines = this.fileReadHelper( fileName );
                 int lineNumber = 1;
 
-                for( String line : fileLines ){
-                    String match = this.matchPattern( pattern, line, grepFlags.caseInsensitive, grepFlags.fullLineMatches );
-                    if( !match.isEmpty() ){
-                        if( !stringBuilder.isEmpty() ){
+                for ( String line : fileLines ) {
+                    boolean matchFound = false;
+                    String fullLine = line.substring( 0, line.length() - 1 );
+
+                    if ( grepFlags.fullLineMatches ) {
+                        if ( fullLine.equals( pattern ) ) {
+                            matchFound = true;
+                        }
+                    } else if ( line.contains( pattern ) ) {
+                        matchFound = true;
+                    }
+
+                    if ( grepFlags.caseInsensitive && line.toLowerCase( Locale.ROOT ).contains( pattern ) ) {
+                        matchFound = true;
+                    }
+
+                    String match = "";
+
+                    if ( grepFlags.invertMatches ) {
+                        match = matchFound ? "" : fullLine;
+                    } else if ( matchFound ) {
+                        match = fullLine;
+                    }
+
+                    if ( !match.isEmpty() ) {
+                        if ( !stringBuilder.isEmpty() ) {
                             stringBuilder.append( "\n" );
                         }
-                        if( grepFlags.fileNamesOnly ){
+
+                        if ( grepFlags.fileNamesOnly ) {
                             stringBuilder.append( fileName );
                             break;
                         } else {
-                            if( grepFlags.includeLineNumbers ){
+                            if ( fileNamePrefix ) {
+                                stringBuilder.append( fileName ).append( ":" );
+                            }
+
+                            if ( grepFlags.includeLineNumbers ) {
                                 stringBuilder.append( lineNumber ).append( ":" );
                             }
                             stringBuilder.append( match );
@@ -127,7 +136,8 @@ public class GrepTool {
                     }
                     lineNumber++;
                 }
-            } catch ( Exception e ){
+
+            } catch ( Exception e ) {
                 e.printStackTrace();
                 return "";
             }
