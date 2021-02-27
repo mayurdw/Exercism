@@ -61,13 +61,11 @@ public class BankAccount {
      * @param amount amount to be deposited
      */
     public void deposit( int amount ) throws BankAccountActionInvalidException {
-        synchronized ( this ){
-            this.checkAccountStatus();
-        }
 
         this.checkAmount( amount );
 
         synchronized ( this ) {
+            this.checkAccountStatus();
             this.accountBalance += amount;
         }
     }
@@ -80,10 +78,6 @@ public class BankAccount {
      */
     public void withdraw( int amount ) throws BankAccountActionInvalidException {
 
-        synchronized ( this ){
-            this.checkAccountStatus();
-        }
-
         this.checkAmount( amount );
         if ( 0 == this.accountBalance ) {
             throw new BankAccountActionInvalidException( "Cannot withdraw money from an empty account" );
@@ -92,6 +86,7 @@ public class BankAccount {
         }
 
         synchronized ( this ) {
+            this.checkAccountStatus();
             this.accountBalance -= amount;
         }
     }
