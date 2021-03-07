@@ -21,7 +21,6 @@ public class KnapsackTest {
         assertEquals(0, knapsack.maximumValue(100, items));
     }
 
-    @Ignore("Remove to run test")
     @Test
     public void testOneItemTooHeavy() {
         ArrayList<Item> items = new ArrayList<>();
