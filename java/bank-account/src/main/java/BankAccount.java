@@ -78,9 +78,10 @@ public class BankAccount {
      */
     public void withdraw( int amount ) throws BankAccountActionInvalidException {
 
+        this.checkAmount( amount );
+
         synchronized ( this ) {
             this.checkAccountStatus();
-            this.checkAmount( amount );
             if ( 0 == this.accountBalance ) {
                 throw new BankAccountActionInvalidException( "Cannot withdraw money from an empty account" );
             } else if ( this.accountBalance < amount ) {
