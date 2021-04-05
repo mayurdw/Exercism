@@ -33,20 +33,19 @@ public class Alphametics {
     }
 
     LinkedHashMap<Character, Integer> getChars( String sum, List<String> parts ){
-        int startIndex = 1;
         LinkedHashMap<Character, Integer> hashMap = new LinkedHashMap<>();
 
         for( String part : parts ){
             for( char a : part.toCharArray() ){
                 if( !hashMap.containsKey( a ) ){
-                    hashMap.put( a, startIndex++ );
+                    hashMap.put( a, 0 );
                 }
             }
         }
 
         for( char a : sum.toCharArray() ){
             if( !hashMap.containsKey( a ) ){
-                hashMap.put( a, startIndex++ );
+                hashMap.put( a, 0 );
             }
         }
 
@@ -92,19 +91,25 @@ public class Alphametics {
         List<String> parts = new ArrayList<>();
         String sum = this.findSumAndParts( parts );
         LinkedHashMap<Character, Integer> solutionMap = this.getChars( sum, parts );
+        LinkedHashMap<Character,Integer> tempMap = ( LinkedHashMap<Character, Integer> ) solutionMap.clone();
 
         // Main Algorithm
         solutionMap.put( sum.charAt( 0 ), 1 );
         boolean matchFound = false;
+        Iterator<Map.Entry<Character, Integer>> iterator = solutionMap.entrySet().iterator();
 
-        while( !matchFound ){
-
-            Integer summationSum = this.stringToSum( sum, solutionMap );
-            Integer partsSum = this.sumOfStringList( parts, solutionMap );
+        while( !matchFound && iterator.hasNext() ){
+            Map.Entry<Character, Integer> key = iterator.next();
+            for( int i = 0; i < 10; i++ ) {
+                tempMap.put( key.getKey(), i );
+            }
+            Integer summationSum = this.stringToSum( sum, tempMap );
+            Integer partsSum = this.sumOfStringList( parts, tempMap );
 
             matchFound = ( summationSum.equals( partsSum ) );
         }
 
-        return solutionMap;
+
+        return tempMap;
     }
 }
