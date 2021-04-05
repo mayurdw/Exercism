@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class Alphametics {
     private final String equation;
     public Alphametics( String equation ){
-        this.equation = equation;
+        this.equation = equation.toUpperCase( Locale.ROOT );
     }
 
     /**
@@ -35,16 +32,35 @@ public class Alphametics {
         return sum;
     }
 
+    LinkedHashMap<Character, Integer> getChars( String sum, List<String> parts ){
+        LinkedHashMap<Character, Integer> hashMap = new LinkedHashMap<>();
+
+        for( String part : parts ){
+            for( char a : part.toCharArray() ){
+                if( !hashMap.containsKey( a ) ){
+                    hashMap.put( a, 0 );
+                }
+            }
+        }
+
+        for( char a : sum.toCharArray() ){
+            if( !hashMap.containsKey( a ) ){
+                hashMap.put( a, 0 );
+            }
+        }
+
+        return hashMap;
+    }
+
     LinkedHashMap<Character, Integer> solve() throws UnsolvablePuzzleException{
         if( !this.equation.contains( " + " ) && !this.equation.contains( " == " ) ){
             throw new UnsolvablePuzzleException( "Not an equation" );
         }
 
-        List<String> additions = new ArrayList<>();
-        String sum = this.findSumAndParts( additions );
+        List<String> parts = new ArrayList<>();
+        String sum = this.findSumAndParts( parts );
 
 
-
-        return null;
+        return this.getChars( sum, parts );
     }
 }
