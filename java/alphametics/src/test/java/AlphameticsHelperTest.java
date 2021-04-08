@@ -3,8 +3,7 @@ import static org.junit.Assert.assertThrows;
 
 import org.junit.Test;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AlphameticsHelperTest {
 
@@ -37,5 +36,55 @@ public class AlphameticsHelperTest {
 
         assertEquals( 1234567890,
                 AlphameticsHelper.getStringSum( "ABCDEFGHIJ", charMap ) );
+    }
+
+    @Test
+    public void testSimpleSplit() throws UnsolvablePuzzleException {
+        String sum = "ABC";
+        List<String> parts = Arrays.asList( "A", "B", "C" );
+        List<String> actualParts = new ArrayList<>();
+
+        assertEquals( sum, AlphameticsHelper.breakStringToSumAndParts( "A + B + C = " + sum, actualParts ) );
+        assertEquals( parts, actualParts );
+    }
+
+
+    @Test
+    public void basicMapTest() throws UnsolvablePuzzleException {
+        LinkedHashMap<Character, Integer> inputMap = new LinkedHashMap<>();
+        LinkedHashMap<Character, Integer> expectedMap = new LinkedHashMap<>();
+
+        inputMap.put( 'A', 0 );
+        inputMap.put( 'B', 0 );
+        expectedMap.put( 'A', 0 );
+        expectedMap.put( 'B', 1 );
+
+        assertEquals( expectedMap, AlphameticsHelper.getNextNumberSet( inputMap ) );
+        inputMap.clear();
+        inputMap.putAll( expectedMap );
+        expectedMap.clear();
+        expectedMap.put( 'A', 1 );
+        expectedMap.put( 'B', 2 );
+
+        assertEquals( expectedMap, AlphameticsHelper.getNextNumberSet( inputMap ) );
+    }
+
+    @Test
+    public void full() throws UnsolvablePuzzleException {
+        LinkedHashMap<Character, Integer> inputMap = new LinkedHashMap<>();
+        LinkedHashMap<Character, Integer> expectedMap = new LinkedHashMap<>();
+
+        inputMap.put( 'A', 0 );
+        inputMap.put( 'B', 0 );
+        inputMap.put( 'C', 0 );
+        expectedMap.put( 'A', 8 );
+        expectedMap.put( 'B', 9 );
+        expectedMap.put( 'C', 0 );
+
+        for( int i = 0; i < 8; i++ ){
+            inputMap = AlphameticsHelper.getNextNumberSet( inputMap );
+        }
+
+        assertEquals( expectedMap, AlphameticsHelper.getNextNumberSet( inputMap ) );
     }
 }
