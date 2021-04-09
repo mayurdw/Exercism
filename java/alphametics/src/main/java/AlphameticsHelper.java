@@ -95,4 +95,24 @@ public class AlphameticsHelper {
         }
         return newMap;
     }
+
+    public static LinkedHashMap<Character, Integer> splitStringToChars( String stringToSplit, LinkedHashMap<Character, Integer> currentMap ) throws UnsolvablePuzzleException{
+        if( stringToSplit == null || ( stringToSplit.length() == 0 && currentMap == null ) ){
+            throw new UnsolvablePuzzleException( "String is empty" );
+        }
+
+        if( currentMap == null ){
+            currentMap = new LinkedHashMap<>();
+        }
+
+        char[] chars = stringToSplit.trim().toUpperCase( Locale.ROOT ).toCharArray();
+
+        for( char a : chars ){
+            if ( !currentMap.containsKey( a ) ) {
+                currentMap.put( a, ( int ) ( Math.random() * 9 ) );
+            }
+        }
+
+        return currentMap;
+    }
 }

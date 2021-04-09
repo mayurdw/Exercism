@@ -87,4 +87,19 @@ public class AlphameticsHelperTest {
 
         assertEquals( expectedMap, AlphameticsHelper.getNextNumberSet( inputMap ) );
     }
+
+    @Test
+    public void simpleSplitToMap() throws UnsolvablePuzzleException {
+        LinkedHashMap<Character, Integer> actualMap = new LinkedHashMap<>();
+        Set<Character> expectedKeys = new HashSet<>();
+        String stringToSplit = "ABCAHD";
+
+        expectedKeys.add( 'A' );
+        expectedKeys.add( 'B' );
+        expectedKeys.add( 'C' );
+        expectedKeys.add( 'H' );
+        expectedKeys.add( 'D' );
+
+        assertEquals( expectedKeys, AlphameticsHelper.splitStringToChars( stringToSplit, actualMap ).keySet() );
+    }
 }
